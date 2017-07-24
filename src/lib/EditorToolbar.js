@@ -92,13 +92,7 @@ export default class EditorToolbar extends Component {
       }
     });
     return (
-      <div className={cx(styles.root, className)} style={rootStyle}>
-//         {this._renderInlineStyleButtons()}
-//         {this._renderBlockTypeButtons()}
-//         {this._renderLinkButtons()}
-//         {this._renderImageButton()}
-//         {this._renderBlockTypeDropdown()}
-//         {this._renderUndoRedo()}
+      <div className={cx(styles.root, className)} style={rootStyle}> 
         {buttonsGroups}
         {customControls && customControls.map((f) => {
           switch (typeof f) {
