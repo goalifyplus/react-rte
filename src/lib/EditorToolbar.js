@@ -1,10 +1,10 @@
 /* @flow */
-import {hasCommandModifier} from 'draft-js/lib/KeyBindingUtil';
+import { hasCommandModifier } from 'draft-js/lib/KeyBindingUtil';
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {EditorState, Entity, RichUtils, Modifier} from 'draft-js';
-import {ENTITY_TYPE} from 'draft-js-utils';
+import { EditorState, Entity, RichUtils, Modifier } from 'draft-js';
+import { ENTITY_TYPE } from 'draft-js-utils';
 import DefaultToolbarConfig from './EditorToolbarConfig';
 import StyleButton from './StyleButton';
 import PopoverIconButton from '../ui/PopoverIconButton';
@@ -113,7 +113,7 @@ export default class EditorToolbar extends Component {
   _renderBlockTypeDropdown(name: string, toolbarConfig: ToolbarConfig) {
     let blockType = this._getCurrentBlockType();
     let choices = new Map(
-      (toolbarConfig.BLOCK_TYPE_DROPDOWN || []).map((type) => [type.style, {label: type.label, className: type.className}])
+      (toolbarConfig.BLOCK_TYPE_DROPDOWN || []).map((type) => [type.style, { label: type.label, className: type.className }])
     );
     if (!choices.has(blockType)) {
       blockType = Array.from(choices.keys())[0];
@@ -149,7 +149,7 @@ export default class EditorToolbar extends Component {
   }
 
   _renderInlineStyleButtons(name: string, toolbarConfig: ToolbarConfig) {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     let currentStyle = editorState.getCurrentInlineStyle();
     let buttons = (toolbarConfig.INLINE_STYLE_BUTTONS || []).map((type, index) => (
       <StyleButton
@@ -168,7 +168,7 @@ export default class EditorToolbar extends Component {
   }
 
   _renderLinkButtons(name: string, toolbarConfig: ToolbarConfig) {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     let selection = editorState.getSelection();
     let entity = this._getEntityAtCursor();
     let hasSelection = !selection.isCollapsed();
@@ -211,7 +211,7 @@ export default class EditorToolbar extends Component {
   }
 
   _renderUndoRedo(name: string, toolbarConfig: ToolbarConfig) {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     let canUndo = editorState.getUndoStack().size !== 0;
     let canRedo = editorState.getRedoStack().size !== 0;
     return (
@@ -239,9 +239,9 @@ export default class EditorToolbar extends Component {
   _onKeypress(event: Object, eventFlags: Object) {
     // Catch cmd+k for use with link insertion.
     if (hasCommandModifier(event) && event.keyCode === 75) {
-      let {editorState} = this.props;
+      let { editorState } = this.props;
       if (!editorState.getSelection().isCollapsed()) {
-        this.setState({showLinkInput: true});
+        this.setState({ showLinkInput: true });
         eventFlags.wasHandled = true;
       }
     }
@@ -255,7 +255,7 @@ export default class EditorToolbar extends Component {
       if (event && event.type === 'click') {
         // TODO: Use a better way to get the editor root node.
         let editorRoot = ReactDOM.findDOMNode(this).parentNode;
-        let {activeElement} = document;
+        let { activeElement } = document;
         let wasClickAway = (activeElement == null || activeElement === document.body);
         if (!wasClickAway && !editorRoot.contains(activeElement)) {
           shouldFocusEditor = false;
@@ -265,7 +265,7 @@ export default class EditorToolbar extends Component {
         this.props.focusEditor();
       }
     }
-    this.setState({showLinkInput: !isShowing});
+    this.setState({ showLinkInput: !isShowing });
   }
 
   _toggleShowImageInput(event: ?Object) {
@@ -276,7 +276,7 @@ export default class EditorToolbar extends Component {
       if (event && event.type === 'click') {
         // TODO: Use a better way to get the editor root node.
         let editorRoot = ReactDOM.findDOMNode(this).parentNode;
-        let {activeElement} = document;
+        let { activeElement } = document;
         let wasClickAway = (activeElement == null || activeElement === document.body);
         if (!wasClickAway && !editorRoot.contains(activeElement)) {
           shouldFocusEditor = false;
@@ -289,7 +289,7 @@ export default class EditorToolbar extends Component {
     this.setState({showImageInput: !isShowing});
   }
 
-  _setImage(src: string) {
+  _setImage(src: string, file: ?Object) {
     let {editorState} = this.props;
     let contentState = editorState.getCurrentContent();
     let selection = editorState.getSelection();
@@ -314,10 +314,10 @@ export default class EditorToolbar extends Component {
   }
 
   _removeLink() {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     let entity = getEntityAtCursor(editorState);
     if (entity != null) {
-      let {blockKey, startOffset, endOffset} = entity;
+      let { blockKey, startOffset, endOffset } = entity;
       this.props.onChange(
         clearEntityForRange(editorState, blockKey, startOffset, endOffset)
       );
@@ -363,14 +363,14 @@ export default class EditorToolbar extends Component {
   }
 
   _undo() {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     this.props.onChange(
       EditorState.undo(editorState)
     );
   }
 
   _redo() {
-    let {editorState} = this.props;
+    let { editorState } = this.props;
     this.props.onChange(
       EditorState.redo(editorState)
     );
